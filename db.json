@@ -1,0 +1,360 @@
+{
+  "users": [
+    {
+      "id": "f1",
+      "uid": "demo-freelancer",
+      "name": "Alex Rivera",
+      "email": "alex@docket.dev",
+      "role": "freelancer",
+      "title": "Product Designer & Developer",
+      "company": "Rivera Studio",
+      "photoURL": "",
+      "color": "#6366f1"
+    },
+    {
+      "id": "c1",
+      "uid": "demo-client",
+      "name": "Sam Chen",
+      "email": "sam@acme.com",
+      "role": "client",
+      "title": "Head of Marketing",
+      "company": "Acme Co",
+      "photoURL": "",
+      "color": "#10b981",
+      "freelancerId": "f1"
+    },
+    {
+      "id": "c2",
+      "uid": "demo-client-2",
+      "name": "Priya Nair",
+      "email": "priya@northwind.io",
+      "role": "client",
+      "title": "Founder",
+      "company": "Northwind",
+      "photoURL": "",
+      "color": "#f59e0b",
+      "freelancerId": "f1"
+    },
+    {
+      "id": "u_muwx84i09xuy",
+      "uid": "mAOCzzIS8fYB8WQWi86NTL9FT6Y2",
+      "name": "Ajin Varghese Chandy",
+      "email": "chandyajin@gmail.com",
+      "role": "freelancer",
+      "title": "Freelancer",
+      "company": "",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIGYVUPMbk4AaCeoIL5PPwH_glhTp5NGuShz0-su9U9hQVMTw=s96-c",
+      "color": "#ec4899"
+    },
+    {
+      "id": "c3",
+      "uid": "",
+      "name": "Dana Whitfield",
+      "email": "dana@brightline.cafe",
+      "role": "client",
+      "title": "Client",
+      "company": "Brightline Cafe",
+      "photoURL": "",
+      "color": "#0ea5e9",
+      "freelancerId": "f1",
+      "notes": "Wants a warmer, photo-led site before the holiday season.",
+      "createdAt": "2026-09-28"
+    },
+    {
+      "id": "c4",
+      "uid": "",
+      "name": "Marco Silva",
+      "email": "marco@orbit.fit",
+      "role": "client",
+      "title": "Client",
+      "company": "Orbit Fitness",
+      "photoURL": "",
+      "color": "#8b5cf6",
+      "freelancerId": "f1",
+      "notes": "Comparing us against two other studios. Wants a quote by Friday.",
+      "createdAt": "2026-09-24"
+    },
+    {
+      "id": "c5",
+      "uid": "",
+      "name": "Helen Okafor",
+      "email": "helen@kitelegal.com",
+      "role": "client",
+      "title": "Client",
+      "company": "Kite Legal",
+      "photoURL": "",
+      "color": "#10b981",
+      "freelancerId": "f1",
+      "notes": "Signed. Kickoff scheduled for the first week of October.",
+      "createdAt": "2026-09-15"
+    },
+    {
+      "id": "c6",
+      "uid": "",
+      "name": "Tomas Berg",
+      "email": "tomas@fernandoak.co",
+      "role": "client",
+      "title": "Client",
+      "company": "Fern & Oak",
+      "photoURL": "",
+      "color": "#6366f1",
+      "freelancerId": "f1",
+      "notes": "Went with an in-house hire. Worth a check-in next quarter.",
+      "createdAt": "2026-09-02"
+    },
+    {
+      "id": "c7",
+      "uid": "YSEmbiXJDBdAC8KgvxFXxyNg2Bf1",
+      "name": "arun",
+      "email": "arun@gmail.com",
+      "role": "client",
+      "title": "Client",
+      "company": "arun pvt",
+      "photoURL": "",
+      "color": "#f59e0b",
+      "freelancerId": "u_muwx84i09xuy",
+      "notes": "new website",
+      "createdAt": "2026-10-06"
+    }
+  ],
+  "projects": [
+    {
+      "id": "p1",
+      "freelancerId": "f1",
+      "clientId": "c1",
+      "title": "Acme Marketing Site",
+      "description": "A full rebuild of the Acme marketing site: new design system, six core pages, and a CMS the marketing team can edit without help.",
+      "budget": 8500,
+      "status": "active",
+      "progress": 62,
+      "startDate": "2026-08-18",
+      "dueDate": "2026-10-30"
+    },
+    {
+      "id": "p2",
+      "freelancerId": "f1",
+      "clientId": "c2",
+      "title": "Northwind Design System",
+      "description": "Component library and Figma tokens so Northwind's product team can ship consistent screens faster.",
+      "budget": 12000,
+      "status": "active",
+      "progress": 30,
+      "startDate": "2026-09-08",
+      "dueDate": "2026-12-12"
+    },
+    {
+      "id": "p3",
+      "freelancerId": "f1",
+      "clientId": "c1",
+      "title": "Acme Rebrand",
+      "description": "Logo, palette and typography refresh with a short brand guide.",
+      "budget": 5000,
+      "status": "completed",
+      "progress": 100,
+      "startDate": "2026-05-04",
+      "dueDate": "2026-07-18"
+    },
+    {
+      "id": "p_muwxzl0jv7xs",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c7",
+      "title": "website redesign",
+      "description": "ddfdf fsdf",
+      "budget": 10000,
+      "status": "active",
+      "progress": 10,
+      "startDate": "2026-10-06",
+      "dueDate": "2026-10-10"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "i1",
+      "number": "INV-1042",
+      "projectId": "p1",
+      "freelancerId": "f1",
+      "clientId": "c1",
+      "amount": 3000,
+      "status": "sent",
+      "issuedAt": "2026-09-29",
+      "dueDate": "2026-10-13",
+      "paidAt": null,
+      "note": "Milestone 2 - homepage and pricing page delivered."
+    },
+    {
+      "id": "i2",
+      "number": "INV-1015",
+      "projectId": "p1",
+      "freelancerId": "f1",
+      "clientId": "c1",
+      "amount": 2500,
+      "status": "paid",
+      "issuedAt": "2026-08-20",
+      "dueDate": "2026-09-03",
+      "paidAt": "2026-08-27",
+      "note": "Milestone 1 - discovery and wireframes."
+    },
+    {
+      "id": "i3",
+      "number": "INV-1043",
+      "projectId": "p2",
+      "freelancerId": "f1",
+      "clientId": "c2",
+      "amount": 4000,
+      "status": "sent",
+      "issuedAt": "2026-10-01",
+      "dueDate": "2026-10-15",
+      "paidAt": null,
+      "note": "Kickoff and token architecture."
+    },
+    {
+      "id": "i4",
+      "number": "INV-1002",
+      "projectId": "p3",
+      "freelancerId": "f1",
+      "clientId": "c1",
+      "amount": 5000,
+      "status": "paid",
+      "issuedAt": "2026-07-01",
+      "dueDate": "2026-07-15",
+      "paidAt": "2026-07-09",
+      "note": "Rebrand - final balance."
+    },
+    {
+      "id": "i5",
+      "number": "INV-1044",
+      "projectId": "p2",
+      "freelancerId": "f1",
+      "clientId": "c2",
+      "amount": 1500,
+      "status": "draft",
+      "issuedAt": "2026-10-05",
+      "dueDate": "2026-10-19",
+      "paidAt": null,
+      "note": "Additional icon set - not yet sent."
+    },
+    {
+      "id": "i_muwy0leqjl4t",
+      "number": "INV-1001",
+      "projectId": "p_muwxzl0jv7xs",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c7",
+      "amount": 1000,
+      "status": "paid",
+      "issuedAt": "2026-10-06",
+      "dueDate": "2026-10-07",
+      "paidAt": "2026-10-06",
+      "note": ""
+    },
+    {
+      "id": "i_muwzcd3wpfvs",
+      "number": "INV-1002",
+      "projectId": "p_muwxzl0jv7xs",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c7",
+      "amount": 10,
+      "status": "sent",
+      "issuedAt": "2026-10-06",
+      "dueDate": "2026-10-07",
+      "paidAt": null,
+      "note": ""
+    }
+  ],
+  "files": [
+    {
+      "id": "fl1",
+      "projectId": "p1",
+      "name": "Acme-Homepage-v3.fig",
+      "size": 4820000,
+      "uploadedBy": "f1",
+      "createdAt": "2026-09-22",
+      "url": "#"
+    },
+    {
+      "id": "fl2",
+      "projectId": "p1",
+      "name": "Brand-photography.zip",
+      "size": 184000000,
+      "uploadedBy": "c1",
+      "createdAt": "2026-09-12",
+      "url": "#"
+    },
+    {
+      "id": "fl3",
+      "projectId": "p1",
+      "name": "Copy-deck-final.docx",
+      "size": 68000,
+      "uploadedBy": "c1",
+      "createdAt": "2026-09-30",
+      "url": "#"
+    },
+    {
+      "id": "fl4",
+      "projectId": "p2",
+      "name": "Northwind-Tokens.json",
+      "size": 24000,
+      "uploadedBy": "f1",
+      "createdAt": "2026-09-19",
+      "url": "#"
+    },
+    {
+      "id": "fl5",
+      "projectId": "p3",
+      "name": "Acme-Logo-Suite.zip",
+      "size": 9200000,
+      "uploadedBy": "f1",
+      "createdAt": "2026-07-16",
+      "url": "#"
+    },
+    {
+      "id": "fl_muwya7ekr3yr",
+      "projectId": "p_muwxzl0jv7xs",
+      "name": "Ajin_Varghese_Chandy_FlowCV_Resume_2026-10-04.pdf",
+      "size": 60882,
+      "uploadedBy": "c7",
+      "createdAt": "2026-10-06",
+      "url": "#"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay1",
+      "invoiceId": "i2",
+      "projectId": "p1",
+      "freelancerId": "f1",
+      "clientId": "c1",
+      "amount": 2500,
+      "method": "card",
+      "cardLast4": "4242",
+      "status": "succeeded",
+      "reference": "DEMO-8F31A2",
+      "paidAt": "2026-08-27"
+    },
+    {
+      "id": "pay2",
+      "invoiceId": "i4",
+      "projectId": "p3",
+      "freelancerId": "f1",
+      "clientId": "c1",
+      "amount": 5000,
+      "method": "card",
+      "cardLast4": "4242",
+      "status": "succeeded",
+      "reference": "DEMO-2C77B9",
+      "paidAt": "2026-07-09"
+    },
+    {
+      "id": "pay_muwzb8a4bp3z",
+      "invoiceId": "i_muwy0leqjl4t",
+      "projectId": "p_muwxzl0jv7xs",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c7",
+      "amount": 1000,
+      "method": "card",
+      "cardLast4": "4242",
+      "status": "succeeded",
+      "reference": "DEMO-0E2804",
+      "paidAt": "2026-10-06"
+    }
+  ]
+}
