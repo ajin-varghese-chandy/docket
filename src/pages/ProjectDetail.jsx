@@ -28,7 +28,9 @@ export default function ProjectDetail() {
     const found = (await api.get('/projects/' + id)).data
     const everyone = (await api.get('/users')).data
     const projectInvoices = (await api.get('/invoices', { params: { projectId: id } })).data
-    const projectFiles = (await api.get('/files', { params: { projectId: id } })).data
+    const projectFiles = isFreelancer
+      ? []
+      : (await api.get('/files', { params: { projectId: id } })).data
     const projectPayments = (await api.get('/payments', { params: { projectId: id } })).data
 
     setProject(found)
@@ -129,6 +131,7 @@ export default function ProjectDetail() {
     .filter((payment) => payment.status === 'succeeded')
     .reduce((sum, payment) => sum + payment.amount, 0)
   const accent = isFreelancer ? 'text-indigo-600 border-indigo-600' : 'text-emerald-700 border-emerald-600'
+  const tabs = isFreelancer ? TABS.filter((name) => name !== 'Files') : TABS
 
   return (
     <div>
@@ -188,7 +191,7 @@ export default function ProjectDetail() {
       </div>
 
       <div className="mb-[18px] flex flex-wrap gap-1 border-b border-slate-200">
-        {TABS.map((name) => (
+        {tabs.map((name) => (
           <button
             key={name}
             className={
@@ -340,14 +343,16 @@ export default function ProjectDetail() {
         </section>
       ) : null}
 
-      {tab === 'Files' ? (
+      {tab === 'Files' && !isFreelancer ? (
         <section className="mb-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="mb-3.5 flex items-center justify-between gap-3">
             <h2 className="text-base font-semibold">Shared files</h2>
-            <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-slate-900 transition hover:bg-slate-100">
-              Upload
-              <input type="file" hidden onChange={addFile} />
-            </label>
+            {!isFreelancer ? (
+              <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-slate-900 transition hover:bg-slate-100">
+                Upload
+                <input type="file" hidden onChange={addFile} />
+              </label>
+            ) : null}
           </div>
 
           <p className="mb-4 rounded-[10px] border border-indigo-200 bg-indigo-50 px-3 py-2.5 text-[13px] text-indigo-800">
