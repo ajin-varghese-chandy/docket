@@ -38,11 +38,11 @@
     {
       "id": "u_muwx84i09xuy",
       "uid": "mAOCzzIS8fYB8WQWi86NTL9FT6Y2",
-      "name": "Ajin Varghese Chandy",
+      "name": "Ajin Varghese",
       "email": "chandyajin@gmail.com",
       "role": "freelancer",
       "title": "Freelancer",
-      "company": "",
+      "company": "dsad",
       "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIGYVUPMbk4AaCeoIL5PPwH_glhTp5NGuShz0-su9U9hQVMTw=s96-c",
       "color": "#ec4899"
     },
@@ -115,6 +115,17 @@
       "freelancerId": "u_muwx84i09xuy",
       "notes": "new website",
       "createdAt": "2026-10-06"
+    },
+    {
+      "id": "u_muzuzx4r66f0",
+      "uid": "yvZIpIkFEqWoRD2PmkXNH3Xn9942",
+      "name": "Ajin",
+      "email": "careerajin@gmail.com",
+      "role": "freelancer",
+      "title": "Freelancer",
+      "company": "",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIyf1JU9auOGin5CqD5UHnMeBOmecs6V5GsTmxonZtiyeMGdA=s96-c",
+      "color": "#ec4899"
     }
   ],
   "projects": [
@@ -162,7 +173,7 @@
       "description": "ddfdf fsdf",
       "budget": 10000,
       "status": "active",
-      "progress": 10,
+      "progress": 80,
       "startDate": "2026-10-06",
       "dueDate": "2026-10-10"
     }
@@ -253,11 +264,24 @@
       "freelancerId": "u_muwx84i09xuy",
       "clientId": "c7",
       "amount": 10,
-      "status": "sent",
+      "status": "paid",
       "issuedAt": "2026-10-06",
       "dueDate": "2026-10-07",
-      "paidAt": null,
+      "paidAt": "2026-10-08",
       "note": ""
+    },
+    {
+      "id": "i_muzf1eg4l5sy",
+      "number": "INV-1003",
+      "projectId": "p_muwxzl0jv7xs",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c7",
+      "amount": 44,
+      "status": "sent",
+      "issuedAt": "2026-10-08",
+      "dueDate": "",
+      "paidAt": null,
+      "note": "dsadsad"
     }
   ],
   "files": [
@@ -355,6 +379,22 @@
       "status": "succeeded",
       "reference": "DEMO-0E2804",
       "paidAt": "2026-10-06"
+    },
+    {
+      "id": "pay_muzeasokt4le",
+      "invoiceId": "i_muwzcd3wpfvs",
+      "projectId": "p_muwxzl0jv7xs",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c7",
+      "amount": 10,
+      "method": "razorpay",
+      "via": "upi",
+      "cardLast4": null,
+      "status": "succeeded",
+      "reference": "pay_TlNhjJ5fBEqgB9",
+      "razorpayOrderId": "order_TlNhbyAx9hof9O",
+      "razorpayPaymentId": "pay_TlNhjJ5fBEqgB9",
+      "paidAt": "2026-10-08"
     }
   ]
 }
