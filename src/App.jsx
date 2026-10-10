@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from './AuthContext.jsx'
 import Layout from './components/Layout.jsx'
-import Login from './pages/Login.jsx'
+import Home from './pages/Home.jsx'
 import ClientDashboard from './pages/ClientDashboard.jsx'
 import ClientProjects from './pages/ClientProjects.jsx'
 import ClientFreelancers from './pages/ClientFreelancers.jsx'
@@ -21,7 +21,7 @@ export default function App() {
   }
 
   if (!user) {
-    return <Login />
+    return <Home />
   }
 
   const isFreelancer = user.role === 'freelancer'

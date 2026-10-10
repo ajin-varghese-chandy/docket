@@ -1,25 +1,45 @@
 import { useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 import { isFirebaseConfigured } from '../firebase.js'
-import Logo from '../components/Logo.jsx'
 
 const ROLES = [
   {
     id: 'freelancer',
     title: 'I am a Freelancer',
-    blurb: 'Manage clients, projects and invoices',
-    button: 'bg-indigo-600 hover:bg-indigo-700',
+    lead: 'Manage',
+    blurb: ' clients, projects and invoices',
+    button: 'bg-indigo-600 hover:bg-indigo-700 focus-visible:ring-indigo-600',
+    accent:
+      'group-hover:border-indigo-300 group-hover:bg-indigo-50 group-hover:text-indigo-600',
+    icon: (
+      <>
+        <path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
+        <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z" />
+      </>
+    ),
   },
   {
     id: 'client',
     title: 'I am a Client',
-    blurb: 'Track work, files and invoices',
-    button: 'bg-emerald-600 hover:bg-emerald-700',
+    lead: 'Track',
+    blurb: ' work, files and invoices',
+    button: 'bg-emerald-600 hover:bg-emerald-700 focus-visible:ring-emerald-600',
+    accent:
+      'group-hover:border-emerald-300 group-hover:bg-emerald-50 group-hover:text-emerald-600',
+    icon: (
+      <>
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+        <circle cx="12" cy="12" r="3" />
+      </>
+    ),
   },
 ]
 
 const INPUT =
   'rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20'
+
+const FOCUS =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-600/50'
 
 export default function Login() {
   const { signIn, signInWithEmail, signUpWithEmail, signInAsDemoAccount } = useAuth()
@@ -77,276 +97,199 @@ export default function Login() {
   }
 
   return (
-    <div className="relative grid min-h-screen grid-cols-2 max-lg:grid-cols-1">
-      <section className="no-scrollbar flex h-screen flex-col overflow-y-auto bg-slate-900 px-[52px] text-slate-200 max-lg:h-auto max-lg:overflow-visible max-lg:px-7">
-        <div className="sticky top-0 z-10 -mx-[52px] flex items-center gap-3 bg-slate-900 px-[52px] py-4 max-lg:-mx-7 max-lg:px-7">
-          <Logo size={52} />
-          <span className="text-2xl font-extrabold tracking-[0.14em] text-white">DOCKET</span>
-        </div>
-
-        <div className="pb-16">
-          <div className="flex min-h-[calc(100vh-84px)] flex-col justify-center gap-[18px]">
-            <h1 className="text-[38px] leading-[1.15] tracking-[-0.03em] text-white">
-              Run your business.
-              <br />
-              Keep clients in the loop.
-            </h1>
-            <p className="max-w-[460px] text-base text-slate-400">
-              Freelancers manage clients, projects and invoices. Clients track the shared work, share
-              files and pay invoices — one shared project, two sides.
-            </p>
-
-            <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
-              {[
-                'Clients, projects and invoices in a single flow',
-                'One shared project both sides can open',
-                'Razorpay payments between freelancer and client',
-              ].map((point) => (
-                <li
-                  key={point}
-                  className="relative pl-[26px] text-[14.5px] text-slate-300 before:absolute before:left-1 before:top-[7px] before:h-2 before:w-2 before:rounded-full before:bg-indigo-400"
-                >
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-3 pt-3">
-            <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-              <h2 className="mb-1.5 text-base font-bold text-white">What is DOCKET?</h2>
-              <p className="text-sm leading-relaxed text-slate-400">
-                DOCKET is a small workspace where a freelancer runs their business and their client
-                follows the same work. One project, two sides, everything in one place — no
-                spreadsheets, no lost email threads.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 max-lg:grid-cols-1">
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">For the freelancer</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Keep your clients, projects and invoices in one place. Update project progress,
-                  share files and send an invoice straight from the project page. The dashboard
-                  shows what is active, what you are owed and what you have been paid.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">For the client</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Open the same project your freelancer sees, with live progress, shared files and
-                  every invoice in a list. Pay an invoice online and the freelancer watches it land
-                  on their side instantly.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">How a project works</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  A project starts in the freelancer's list and is shared with the client. The
-                  freelancer moves it along, uploads files and raises invoices; the client reviews
-                  the same tabs — Overview, Invoices, Files and Payments — and pays when an invoice
-                  arrives.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">Files and sharing</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Deliverables live on the project. The freelancer uploads from the project page,
-                  the client opens the same Files tab and picks them up — no attachment hunting
-                  through email.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">Invoices</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Draft an invoice from the project, send it when the work is done, and follow draft
-                  → sent → paid in one list. Overdue dates are highlighted automatically so nothing
-                  lingers.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">Payments with Razorpay</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Invoices are paid through Razorpay — UPI, cards, netbanking and wallets. Every
-                  payment is verified on the server before the invoice is marked paid, so a paid
-                  invoice really means the money was taken.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">Dashboards</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Both sides get a dashboard: active projects, clients, money outstanding and money
-                  received — plus the latest projects and invoices, so the important numbers are
-                  always the first thing you see.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-white/10 bg-slate-800 p-4">
-                <h2 className="mb-1.5 text-base font-bold text-white">Sign in your way</h2>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  Google or email and password through Firebase Auth. Without Firebase keys the app
-                  drops into demo mode with sample accounts, so you can explore everything before
-                  wiring up your own project.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sticky top-0 z-20 flex h-screen max-w-[640px] flex-col justify-center justify-self-end border-l border-indigo-100 bg-indigo-50 px-9 max-lg:static max-lg:h-auto max-lg:max-w-none max-lg:justify-self-stretch max-lg:border-l-0 max-lg:border-t max-lg:px-7 max-lg:py-10">
-        <h2 className="mb-[18px] text-xl font-bold">Choose how you are signing in</h2>
+    <section className="sticky top-0 z-20 flex h-screen max-w-[640px] flex-col justify-center justify-self-end border-l border-indigo-100 bg-indigo-50 px-8 py-10 max-lg:static max-lg:order-3 max-lg:h-auto max-lg:max-w-none max-lg:justify-self-stretch max-lg:border-l-0 max-lg:border-t max-lg:px-7 max-lg:py-10">
+      <div className="mx-auto flex w-full max-w-[470px] flex-col">
+        <header className="mb-7">
+          <h2 className="text-[27px] font-bold leading-[1.15] tracking-[-0.025em] text-slate-900">
+            Welcome to Docket
+          </h2>
+          <p className="mt-2 text-[14.5px] leading-relaxed text-slate-600">
+            Choose your workspace to continue.
+          </p>
+        </header>
 
         {!isFirebaseConfigured ? (
-          <p className="mb-4 rounded-[10px] border border-indigo-200 bg-indigo-50 px-3.5 py-3 text-sm text-indigo-800">
+          <p className="mb-4 rounded-[10px] border border-indigo-200 bg-indigo-100/60 px-3.5 py-3 text-[13.5px] leading-relaxed text-indigo-900">
             Demo mode. Firebase keys are not configured, so sign-in is simulated with the sample
             accounts from <code>db.json</code>. Any password of 6 or more characters works.
           </p>
         ) : null}
 
         <div className="flex flex-col gap-3">
-          {ROLES.map((role) => (
-            <div
-              className="overflow-hidden rounded-2xl border border-slate-200 bg-white"
-              key={role.id}
-            >
-              <button
-                className="flex w-full cursor-pointer items-center gap-3.5 px-5 py-[18px] text-left transition hover:bg-slate-50"
-                onClick={() => setOpenRole(openRole === role.id ? '' : role.id)}
+          {ROLES.map((role) => {
+            const isOpen = openRole === role.id
+            return (
+              <div
+                className="overflow-hidden rounded-2xl border border-slate-200 bg-white transition duration-200 hover:-translate-y-px hover:border-indigo-300 hover:shadow-[0_16px_36px_-26px_rgba(15,23,42,0.55)] has-[:focus-visible]:border-indigo-300"
+                key={role.id}
               >
-                <span className="flex min-w-0 flex-1 flex-col gap-1">
-                  <strong className="text-base">{role.title}</strong>
-                  <span className="text-[13.5px] text-slate-500">{role.blurb}</span>
-                </span>
-                <svg
+                <button
+                  type="button"
                   className={
-                    'h-5 w-5 shrink-0 text-slate-400 transition-transform ' +
-                    (openRole === role.id ? 'rotate-90' : '')
+                    'group flex w-full cursor-pointer items-center gap-4 px-5 py-[17px] text-left ' +
+                    FOCUS
                   }
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  onClick={() => setOpenRole(isOpen ? '' : role.id)}
+                  aria-expanded={isOpen}
+                  aria-controls={'signin-' + role.id}
                 >
-                  <path d="M9 6l6 6-6 6" />
-                </svg>
-              </button>
-
-              {openRole === role.id ? (
-                <div className="flex flex-col gap-3 border-t border-slate-200 bg-slate-50 p-4">
-                  <button
+                  <span
                     className={
-                      'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 ' +
-                      role.button
+                      'grid h-10 w-10 shrink-0 place-items-center rounded-[11px] border border-slate-200 bg-slate-50 text-slate-500 transition duration-200 ' +
+                      role.accent
                     }
-                    onClick={() => handleSignIn(role.id)}
-                    disabled={busy !== ''}
                   >
-                    {busy === role.id ? 'Signing in…' : 'Continue with Google'}
-                  </button>
+                    <svg
+                      className="h-[18px] w-[18px]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      {role.icon}
+                    </svg>
+                  </span>
 
-                  <div className="flex items-center gap-2.5 text-[12px] uppercase tracking-wider text-slate-400">
-                    <span className="h-px flex-1 bg-slate-200" />
-                    or
-                    <span className="h-px flex-1 bg-slate-200" />
+                  <span className="flex min-w-0 flex-1 flex-col gap-1">
+                    <strong className="text-[15.5px] font-semibold text-slate-900">
+                      {role.title}
+                    </strong>
+                    <span className="text-[13.5px] leading-snug text-slate-600">
+                      <span className="font-semibold text-slate-900">{role.lead}</span>
+                      {role.blurb}
+                    </span>
+                  </span>
+
+                  <svg
+                    className={
+                      'h-5 w-5 shrink-0 text-slate-400 transition duration-200 group-hover:text-slate-700 ' +
+                      (isOpen ? 'rotate-90' : 'group-hover:translate-x-0.5')
+                    }
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
+                </button>
+
+                {isOpen ? (
+                  <div
+                    id={'signin-' + role.id}
+                    className="flex flex-col gap-3 border-t border-slate-200 bg-indigo-50/70 p-4"
+                  >
+                    <button
+                      type="button"
+                      className={
+                        'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
+                        role.button
+                      }
+                      onClick={() => handleSignIn(role.id)}
+                      disabled={busy !== ''}
+                    >
+                      {busy === role.id ? 'Signing in…' : 'Continue with Google'}
+                    </button>
+
+                    <div className="flex items-center gap-2.5 text-[12px] uppercase tracking-wider text-slate-500">
+                      <span className="h-px flex-1 bg-slate-300/70" />
+                      or
+                      <span className="h-px flex-1 bg-slate-300/70" />
+                    </div>
+
+                    <input
+                      className={INPUT}
+                      type="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="you@example.com"
+                      autoComplete="email"
+                      aria-label="Email"
+                    />
+                    <input
+                      className={INPUT}
+                      type="password"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      placeholder="Password"
+                      autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                      aria-label="Password"
+                    />
+
+                    <button
+                      type="button"
+                      className={
+                        'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
+                        role.button
+                      }
+                      onClick={() => handleEmail(role.id)}
+                      disabled={busy !== ''}
+                    >
+                      {busy === 'email-' + role.id
+                        ? 'Please wait…'
+                        : mode === 'signup'
+                          ? 'Create account'
+                          : 'Sign in with email'}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="cursor-pointer self-center border-none bg-transparent p-0 text-[13px] font-semibold text-slate-600 transition hover:text-slate-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600/50"
+                      onClick={() => {
+                        setMode(mode === 'signup' ? 'signin' : 'signup')
+                        setError('')
+                      }}
+                    >
+                      {mode === 'signup'
+                        ? 'Already have an account? Sign in'
+                        : 'New here? Create an account'}
+                    </button>
                   </div>
-
-                  <input
-                    className={INPUT}
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="you@example.com"
-                    autoComplete="email"
-                  />
-                  <input
-                    className={INPUT}
-                    type="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="Password"
-                    autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-                  />
-
-                  <button
-                    className={
-                      'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 ' +
-                      role.button
-                    }
-                    onClick={() => handleEmail(role.id)}
-                    disabled={busy !== ''}
-                  >
-                    {busy === 'email-' + role.id
-                      ? 'Please wait…'
-                      : mode === 'signup'
-                        ? 'Create account'
-                        : 'Sign in with email'}
-                  </button>
-
-                  <button
-                    className="cursor-pointer self-center border-none bg-transparent p-0 text-[13px] font-semibold text-slate-500 transition hover:text-slate-900"
-                    onClick={() => {
-                      setMode(mode === 'signup' ? 'signin' : 'signup')
-                      setError('')
-                    }}
-                  >
-                    {mode === 'signup'
-                      ? 'Already have an account? Sign in'
-                      : 'New here? Create an account'}
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          ))}
+                ) : null}
+              </div>
+            )
+          })}
         </div>
 
         {error ? (
-          <p className="my-2.5 rounded-[10px] border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600">
+          <p
+            role="alert"
+            className="my-3 rounded-[10px] border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600"
+          >
             {error}
           </p>
         ) : null}
 
         {!isFirebaseConfigured ? (
-          <div className="mt-[22px] flex flex-col gap-2.5 text-[13.5px]">
-            <span className="text-slate-500">Or open a specific sample account</span>
+          <div className="mt-6 flex flex-col gap-2.5 text-[13.5px]">
+            <span className="text-slate-600">Or open a specific sample account</span>
             <div className="flex flex-wrap gap-2">
-              <button
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-4 py-[9px] text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
-                onClick={() => handleDemo('alex@docket.dev')}
-              >
-                Alex · Freelancer
-              </button>
-              <button
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-4 py-[9px] text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
-                onClick={() => handleDemo('sam@acme.com')}
-              >
-                Sam · Client (Acme)
-              </button>
-              <button
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-4 py-[9px] text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
-                onClick={() => handleDemo('priya@northwind.io')}
-              >
-                Priya · Client (Northwind)
-              </button>
+              {[
+                { email: 'alex@docket.dev', label: 'Alex · Freelancer' },
+                { email: 'sam@acme.com', label: 'Sam · Client (Acme)' },
+                { email: 'priya@northwind.io', label: 'Priya · Client (Northwind)' },
+              ].map((demo) => (
+                <button
+                  type="button"
+                  key={demo.email}
+                  className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-4 py-[9px] text-sm font-semibold text-slate-900 transition hover:border-indigo-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-600/50"
+                  onClick={() => handleDemo(demo.email)}
+                >
+                  {demo.label}
+                </button>
+              ))}
             </div>
           </div>
         ) : null}
-      </section>
-
-      <img
-        src="/hero.png"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none fixed left-1/2 top-1/2 z-10 w-[min(42vw,380px)] -translate-x-1/2 -translate-y-1/2"
-      />
-    </div>
+      </div>
+    </section>
   )
 }
