@@ -29,6 +29,7 @@ export default function Invoices() {
   const [users, setUsers] = useState([])
   const [filter, setFilter] = useState('all')
   const [showForm, setShowForm] = useState(false)
+  const [editingId, setEditingId] = useState('')
   const [form, setForm] = useState(EMPTY_FORM)
   const [error, setError] = useState('')
 
@@ -60,8 +61,33 @@ export default function Invoices() {
     setForm({ ...form, [field]: value })
   }
 
-  async function addInvoice(event) {
-    event.preventDefault()
+  function openNew() {
+    setEditingId('')
+    setForm(EMPTY_FORM)
+    setError('')
+    setShowForm(true)
+  }
+
+  function openEdit(invoice) {
+    setEditingId(invoice.id)
+    setForm({
+      projectId: invoice.projectId || '',
+      amount: invoice.amount === null || invoice.amount === undefined ? '' : String(invoice.amount),
+      dueDate: invoice.dueDate || '',
+      note: invoice.note || '',
+    })
+    setError('')
+    setShowForm(true)
+  }
+
+  function closeForm() {
+    setShowForm(false)
+    setEditingId('')
+    setError('')
+  }
+
+  async function saveInvoice(event) {
+    if (event) event.preventDefault()
 
     const project = projects.find((row) => row.id === form.projectId)
     if (!project) {
@@ -73,23 +99,35 @@ export default function Invoices() {
       return
     }
 
-    const invoice = {
-      id: newId('i'),
-      number: nextNumber(invoices),
+    const fields = {
       projectId: project.id,
       freelancerId: project.freelancerId,
       clientId: project.clientId,
       amount: Number(form.amount),
-      status: 'draft',
-      issuedAt: new Date().toISOString().slice(0, 10),
       dueDate: form.dueDate || '',
-      paidAt: null,
       note: form.note.trim(),
     }
 
-    await api.post('/invoices', invoice)
-    setInvoices([invoice, ...invoices])
+    if (editingId) {
+      const updated = { ...invoices.find((row) => row.id === editingId), ...fields }
+      await api.patch('/invoices/' + editingId, fields)
+      setInvoices(invoices.map((row) => (row.id === editingId ? updated : row)))
+    } else {
+      const invoice = {
+        id: newId('i'),
+        number: nextNumber(invoices),
+        ...fields,
+        status: 'draft',
+        issuedAt: new Date().toISOString().slice(0, 10),
+        paidAt: null,
+      }
+
+      await api.post('/invoices', invoice)
+      setInvoices([invoice, ...invoices])
+    }
+
     setForm(EMPTY_FORM)
+    setEditingId('')
     setShowForm(false)
     setError('')
   }
@@ -130,7 +168,7 @@ export default function Invoices() {
         </div>
         <button
           className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-indigo-600 bg-indigo-600 px-4 py-[9px] text-sm font-semibold text-white transition hover:bg-indigo-700"
-          onClick={() => setShowForm(true)}
+          onClick={openNew}
         >
           New invoice
         </button>
@@ -218,6 +256,12 @@ export default function Invoices() {
                         <>
                           <button
                             className="mr-2 inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-slate-900 transition hover:bg-slate-100"
+                            onClick={() => openEdit(invoice)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="mr-2 inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-slate-900 transition hover:bg-slate-100"
                             onClick={() => sendInvoice(invoice)}
                           >
                             Send
@@ -245,26 +289,26 @@ export default function Invoices() {
 
       {showForm ? (
         <Modal
-          title="New invoice"
-          onClose={() => setShowForm(false)}
+          title={editingId ? 'Edit invoice' : 'New invoice'}
+          onClose={closeForm}
           footer={
             <>
               <button
                 className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-4 py-[9px] text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
-                onClick={() => setShowForm(false)}
+                onClick={closeForm}
               >
                 Cancel
               </button>
               <button
                 className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-indigo-600 bg-indigo-600 px-4 py-[9px] text-sm font-semibold text-white transition hover:bg-indigo-700"
-                onClick={addInvoice}
+                onClick={saveInvoice}
               >
-                Save draft
+                {editingId ? 'Save changes' : 'Save draft'}
               </button>
             </>
           }
         >
-          <form onSubmit={addInvoice}>
+          <form onSubmit={saveInvoice}>
             <label className={FIELD}>
               <span className="text-slate-700">Project</span>
               <select
