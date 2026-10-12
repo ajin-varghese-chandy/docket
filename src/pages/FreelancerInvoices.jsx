@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 import api, { newId } from '../api.js'
 import { money, date, daysUntil } from '../format.js'
+import { filterRows } from '../search.js'
 import Modal from '../components/Modal.jsx'
+import SearchBox from '../components/SearchBox.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
 
 const FILTERS = ['all', 'draft', 'sent', 'paid']
@@ -28,6 +30,7 @@ export default function Invoices() {
   const [projects, setProjects] = useState([])
   const [users, setUsers] = useState([])
   const [filter, setFilter] = useState('all')
+  const [query, setQuery] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState('')
   const [form, setForm] = useState(EMPTY_FORM)
@@ -154,7 +157,17 @@ export default function Invoices() {
   const drafts = invoices.filter((invoice) => invoice.status === 'draft')
   const paid = invoices.filter((invoice) => invoice.status === 'paid')
 
-  const visible = filter === 'all' ? invoices : invoices.filter((row) => row.status === filter)
+  const searched = filterRows(invoices, query, function (invoice) {
+    return [
+      invoice.number,
+      invoice.note,
+      invoice.status,
+      invoice.amount,
+      projectTitle(invoice.projectId),
+      personName(invoice.clientId),
+    ]
+  })
+  const visible = filter === 'all' ? searched : searched.filter((row) => row.status === filter)
 
   return (
     <div>
@@ -180,25 +193,35 @@ export default function Invoices() {
         </p>
       ) : null}
 
-      <div className="mb-[18px] flex flex-wrap gap-1 border-b border-slate-200">
-        {FILTERS.map((name) => (
-          <button
-            key={name}
-            className={
-              '-mb-px inline-flex cursor-pointer items-center gap-[7px] border-b-2 bg-transparent px-3.5 py-2.5 text-sm font-semibold transition ' +
-              (filter === name
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-900')
-            }
-            onClick={() => setFilter(name)}
-          >
-            {name === 'all' ? 'All' : name.charAt(0).toUpperCase() + name.slice(1)}
-          </button>
-        ))}
+      <div className="mb-[18px] flex flex-wrap items-center justify-between gap-3 border-b border-slate-200">
+        <div className="flex flex-wrap gap-1">
+          {FILTERS.map((name) => (
+            <button
+              key={name}
+              className={
+                '-mb-px inline-flex cursor-pointer items-center gap-[7px] border-b-2 bg-transparent px-3.5 py-2.5 text-sm font-semibold transition ' +
+                (filter === name
+                  ? 'border-indigo-600 text-indigo-600'
+                  : 'border-transparent text-slate-500 hover:text-slate-900')
+              }
+              onClick={() => setFilter(name)}
+            >
+              {name === 'all' ? 'All' : name.charAt(0).toUpperCase() + name.slice(1)}
+            </button>
+          ))}
+        </div>
+        <SearchBox
+          className="w-[230px] max-md:w-full"
+          value={query}
+          onChange={setQuery}
+          placeholder="Search invoices…"
+        />
       </div>
 
       {visible.length === 0 ? (
-        <p className="text-slate-500">Nothing here yet.</p>
+        <p className="text-slate-500">
+          {query ? 'No invoices match “' + query + '”.' : 'Nothing here yet.'}
+        </p>
       ) : (
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <table className="w-full border-collapse text-sm">

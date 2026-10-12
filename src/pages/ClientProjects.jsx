@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../AuthContext.jsx'
 import api from '../api.js'
 import { money, date } from '../format.js'
+import { filterRows } from '../search.js'
+import SearchBox from '../components/SearchBox.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
 
 export default function Projects() {
   const { user } = useAuth()
   const [projects, setProjects] = useState(null)
   const [users, setUsers] = useState([])
+  const [query, setQuery] = useState('')
   const [error, setError] = useState('')
 
   async function load() {
@@ -37,6 +40,9 @@ export default function Projects() {
   if (!projects) return <p className="text-slate-500">Loading…</p>
 
   const activeCount = projects.filter((project) => project.status === 'active').length
+  const visible = filterRows(projects, query, function (project) {
+    return [project.title, project.description, project.status, nameOf(project.freelancerId)]
+  })
 
   return (
     <div>
@@ -47,13 +53,22 @@ export default function Projects() {
             {projects.length} total · {activeCount} active · shared with your freelancer
           </p>
         </div>
+        <SearchBox
+          className="w-[230px] max-md:w-full"
+          value={query}
+          onChange={setQuery}
+          placeholder="Search projects…"
+          tone="emerald"
+        />
       </header>
 
       {projects.length === 0 ? (
         <p className="text-slate-500">No projects yet.</p>
+      ) : visible.length === 0 ? (
+        <p className="text-slate-500">No projects match “{query}”.</p>
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
-          {projects.map((project) => (
+          {visible.map((project) => (
             <Link
               className="flex flex-col gap-2.5 rounded-xl border border-slate-200 bg-white p-[18px] shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-600"
               key={project.id}

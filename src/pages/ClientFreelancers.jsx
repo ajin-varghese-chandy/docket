@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 import api, { newId } from '../api.js'
+import { filterRows } from '../search.js'
 import Avatar from '../components/Avatar.jsx'
 import Modal from '../components/Modal.jsx'
+import SearchBox from '../components/SearchBox.jsx'
 
 const EMPTY_FORM = { title: '', description: '', budget: '', dueDate: '' }
 
@@ -13,6 +15,7 @@ const INPUT =
 export default function Freelancers() {
   const { user, updateProfile } = useAuth()
   const [freelancers, setFreelancers] = useState(null)
+  const [query, setQuery] = useState('')
   const [chosen, setChosen] = useState(null)
   const [form, setForm] = useState(EMPTY_FORM)
   const [loadError, setLoadError] = useState('')
@@ -80,6 +83,10 @@ export default function Freelancers() {
   }
   if (!freelancers) return <p className="text-slate-500">Loading…</p>
 
+  const visible = filterRows(freelancers, query, function (freelancer) {
+    return [freelancer.name, freelancer.company, freelancer.title, freelancer.email]
+  })
+
   return (
     <div>
       <header className="mb-[22px] flex items-start justify-between gap-5">
@@ -89,6 +96,13 @@ export default function Freelancers() {
             {freelancers.length} available · send a project to anyone
           </p>
         </div>
+        <SearchBox
+          className="w-[230px] max-md:w-full"
+          value={query}
+          onChange={setQuery}
+          placeholder="Search freelancers…"
+          tone="emerald"
+        />
       </header>
 
       {sentTo ? (
@@ -99,9 +113,11 @@ export default function Freelancers() {
 
       {freelancers.length === 0 ? (
         <p className="text-slate-500">No freelancers yet.</p>
+      ) : visible.length === 0 ? (
+        <p className="text-slate-500">No freelancers match “{query}”.</p>
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
-          {freelancers.map((freelancer) => (
+          {visible.map((freelancer) => (
             <div
               className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-[18px] shadow-sm"
               key={freelancer.id}

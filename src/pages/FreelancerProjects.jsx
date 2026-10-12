@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../AuthContext.jsx'
 import api, { newId } from '../api.js'
 import { money, date } from '../format.js'
+import { filterRows } from '../search.js'
 import Modal from '../components/Modal.jsx'
+import SearchBox from '../components/SearchBox.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
 
 const EMPTY_FORM = { title: '', clientId: '', budget: '', description: '', dueDate: '' }
@@ -18,6 +20,7 @@ export default function Projects() {
   const [users, setUsers] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
+  const [query, setQuery] = useState('')
   const [error, setError] = useState('')
 
   async function load() {
@@ -78,6 +81,9 @@ export default function Projects() {
     (row) => row.role === 'client' && (row.freelancerId === user.id || !row.freelancerId),
   )
   const activeCount = projects.filter((project) => project.status === 'active').length
+  const visible = filterRows(projects, query, function (project) {
+    return [project.title, project.description, project.status, nameOf(project.clientId)]
+  })
 
   return (
     <div>
@@ -88,19 +94,29 @@ export default function Projects() {
             {projects.length} total · {activeCount} active · shared with your clients
           </p>
         </div>
-        <button
-          className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-indigo-600 bg-indigo-600 px-4 py-[9px] text-sm font-semibold text-white transition hover:bg-indigo-700"
-          onClick={() => setShowForm(true)}
-        >
-          New project
-        </button>
+        <div className="flex items-center gap-2.5 max-md:w-full max-md:flex-col max-md:items-stretch">
+          <SearchBox
+            className="w-[230px] max-md:w-full"
+            value={query}
+            onChange={setQuery}
+            placeholder="Search projects…"
+          />
+          <button
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-indigo-600 bg-indigo-600 px-4 py-[9px] text-sm font-semibold text-white transition hover:bg-indigo-700"
+            onClick={() => setShowForm(true)}
+          >
+            New project
+          </button>
+        </div>
       </header>
 
       {projects.length === 0 ? (
         <p className="text-slate-500">No projects yet.</p>
+      ) : visible.length === 0 ? (
+        <p className="text-slate-500">No projects match “{query}”.</p>
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
-          {projects.map((project) => (
+          {visible.map((project) => (
             <Link
               className="flex flex-col gap-2.5 rounded-xl border border-slate-200 bg-white p-[18px] shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-600"
               key={project.id}

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 import api from '../api.js'
 import { money, date, daysUntil } from '../format.js'
+import { filterRows } from '../search.js'
+import SearchBox from '../components/SearchBox.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
 import PaymentModal from '../components/PaymentModal.jsx'
 import { payInvoice } from '../payments.js'
@@ -15,6 +17,7 @@ export default function Invoices() {
   const [projects, setProjects] = useState([])
   const [users, setUsers] = useState([])
   const [filter, setFilter] = useState('all')
+  const [query, setQuery] = useState('')
   const [payingInvoice, setPayingInvoice] = useState(null)
   const [error, setError] = useState('')
 
@@ -65,7 +68,17 @@ export default function Invoices() {
   const outstanding = invoices.filter((invoice) => invoice.status === 'sent')
   const paid = invoices.filter((invoice) => invoice.status === 'paid')
 
-  const visible = filter === 'all' ? invoices : invoices.filter((row) => row.status === filter)
+  const searched = filterRows(invoices, query, function (invoice) {
+    return [
+      invoice.number,
+      invoice.note,
+      invoice.status,
+      invoice.amount,
+      projectTitle(invoice.projectId),
+      personName(invoice.freelancerId),
+    ]
+  })
+  const visible = filter === 'all' ? searched : searched.filter((row) => row.status === filter)
 
   return (
     <div>
@@ -86,25 +99,36 @@ export default function Invoices() {
         </p>
       ) : null}
 
-      <div className="mb-[18px] flex flex-wrap gap-1 border-b border-slate-200">
-        {FILTERS.map((name) => (
-          <button
-            key={name}
-            className={
-              '-mb-px inline-flex cursor-pointer items-center gap-[7px] border-b-2 bg-transparent px-3.5 py-2.5 text-sm font-semibold transition ' +
-              (filter === name
-                ? 'border-emerald-600 text-emerald-700'
-                : 'border-transparent text-slate-500 hover:text-slate-900')
-            }
-            onClick={() => setFilter(name)}
-          >
-            {name === 'all' ? 'All' : name.charAt(0).toUpperCase() + name.slice(1)}
-          </button>
-        ))}
+      <div className="mb-[18px] flex flex-wrap items-center justify-between gap-3 border-b border-slate-200">
+        <div className="flex flex-wrap gap-1">
+          {FILTERS.map((name) => (
+            <button
+              key={name}
+              className={
+                '-mb-px inline-flex cursor-pointer items-center gap-[7px] border-b-2 bg-transparent px-3.5 py-2.5 text-sm font-semibold transition ' +
+                (filter === name
+                  ? 'border-emerald-600 text-emerald-700'
+                  : 'border-transparent text-slate-500 hover:text-slate-900')
+              }
+              onClick={() => setFilter(name)}
+            >
+              {name === 'all' ? 'All' : name.charAt(0).toUpperCase() + name.slice(1)}
+            </button>
+          ))}
+        </div>
+        <SearchBox
+          className="w-[230px] max-md:w-full"
+          value={query}
+          onChange={setQuery}
+          placeholder="Search invoices…"
+          tone="emerald"
+        />
       </div>
 
       {visible.length === 0 ? (
-        <p className="text-slate-500">Nothing here yet.</p>
+        <p className="text-slate-500">
+          {query ? 'No invoices match “' + query + '”.' : 'Nothing here yet.'}
+        </p>
       ) : (
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <table className="w-full border-collapse text-sm">

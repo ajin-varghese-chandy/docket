@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 import api, { newId } from '../api.js'
 import { date } from '../format.js'
+import { filterRows } from '../search.js'
 import Avatar from '../components/Avatar.jsx'
 import Modal from '../components/Modal.jsx'
+import SearchBox from '../components/SearchBox.jsx'
 
 const EMPTY_FORM = { name: '', company: '', email: '', notes: '' }
 const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ec4899', '#0ea5e9', '#8b5cf6']
@@ -16,6 +18,7 @@ export default function Clients() {
   const { user } = useAuth()
   const [clients, setClients] = useState(null)
   const [projects, setProjects] = useState([])
+  const [query, setQuery] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
   const [loadError, setLoadError] = useState('')
@@ -94,6 +97,10 @@ export default function Clients() {
   }
   if (!clients) return <p className="text-slate-500">Loading…</p>
 
+  const visible = filterRows(clients, query, function (client) {
+    return [client.name, client.company, client.email, client.notes]
+  })
+
   return (
     <div>
       <header className="mb-[22px] flex items-start justify-between gap-5">
@@ -103,16 +110,26 @@ export default function Clients() {
             {clients.length} total · shown on every new project
           </p>
         </div>
-        <button
-          className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-indigo-600 bg-indigo-600 px-4 py-[9px] text-sm font-semibold text-white transition hover:bg-indigo-700"
-          onClick={() => setShowForm(true)}
-        >
-          New client
-        </button>
+        <div className="flex items-center gap-2.5 max-md:w-full max-md:flex-col max-md:items-stretch">
+          <SearchBox
+            className="w-[230px] max-md:w-full"
+            value={query}
+            onChange={setQuery}
+            placeholder="Search clients…"
+          />
+          <button
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] border border-indigo-600 bg-indigo-600 px-4 py-[9px] text-sm font-semibold text-white transition hover:bg-indigo-700"
+            onClick={() => setShowForm(true)}
+          >
+            New client
+          </button>
+        </div>
       </header>
 
       {clients.length === 0 ? (
         <p className="text-slate-500">No clients yet. Add your first one.</p>
+      ) : visible.length === 0 ? (
+        <p className="text-slate-500">No clients match “{query}”.</p>
       ) : (
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <table className="w-full border-collapse text-sm">
@@ -134,7 +151,7 @@ export default function Clients() {
               </tr>
             </thead>
             <tbody>
-              {clients.map((client) => (
+              {visible.map((client) => (
                 <tr key={client.id} className="hover:bg-slate-50">
                   <td className="border-b border-slate-200 px-2.5 py-[13px] align-middle">
                     <div className="flex items-center gap-[11px]">
