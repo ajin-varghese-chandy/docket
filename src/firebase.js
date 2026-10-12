@@ -74,6 +74,23 @@ function friendlyAuthMessage(error) {
     return 'Too many attempts. Try again in a moment.'
   }
 
+  if (code === 'auth/unauthorized-domain') {
+    const host = typeof window !== 'undefined' ? window.location.hostname : 'this site'
+    return (
+      'Sign-in is blocked: ' +
+      host +
+      ' is not an authorized domain in Firebase. Add it under Authentication → Settings → Authorized domains.'
+    )
+  }
+
+  if (code === 'auth/popup-closed-by-user') {
+    return 'The sign-in window was closed before it finished.'
+  }
+
+  if (code === 'auth/popup-blocked') {
+    return 'The sign-in popup was blocked by the browser. Allow popups for this site and try again.'
+  }
+
   if (error && error.message) {
     return error.message
   }
@@ -83,9 +100,13 @@ function friendlyAuthMessage(error) {
 
 export async function googleSignIn() {
   const provider = new GoogleAuthProvider()
-  const result = await signInWithPopup(auth, provider)
-  const profile = toProfile(result.user)
-  return profile
+  try {
+    const result = await signInWithPopup(auth, provider)
+    const profile = toProfile(result.user)
+    return profile
+  } catch (error) {
+    throw new Error(friendlyAuthMessage(error))
+  }
 }
 
 export async function emailSignIn(email, password) {
