@@ -1,0 +1,51 @@
+# Render blueprint for the two halves of DOCKET.
+#
+#   docket-web   static site  - the React app, served from dist/
+#   docket-api   web service  - the json-server + Razorpay API in server/
+#
+# Deploy this file as a Blueprint, or copy the values into the dashboard.
+
+services:
+  - type: web
+    name: docket-api
+    runtime: node
+    rootDir: server
+    # json-server has nothing to compile - install and go.
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /razorpay-config
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+
+  - type: static_site
+    name: docket-web
+    rootDir: .
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      # Vite inlines this at build time, so it must exist before the build.
+      # RENDER_EXTERNAL_URL is the deployed URL of docket-api above.
+      - key: VITE_API_BASE
+        fromService:
+          name: docket-api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: VITE_FIREBASE_API_KEY
+        sync: false
+      - key: VITE_FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: VITE_FIREBASE_PROJECT_ID
+        sync: false
+      - key: VITE_FIREBASE_STORAGE_BUCKET
+        sync: false
+      - key: VITE_FIREBASE_MESSAGING_SENDER_ID
+        sync: false
+      - key: VITE_FIREBASE_APP_ID
+        sync: false
+      - key: VITE_FIREBASE_DATABASE_URL
+        sync: false
