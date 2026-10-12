@@ -47,10 +47,6 @@ export default function App() {
           path="/freelancers"
           element={isFreelancer ? <Navigate to="/dashboard" replace /> : <ClientFreelancers />}
         />
-        <Route
-          path="/files"
-          element={<Navigate to="/dashboard" replace />}
-        />
         <Route path="/invoices" element={isFreelancer ? <FreelancerInvoices /> : <ClientInvoices />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

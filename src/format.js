@@ -27,6 +27,11 @@ export function initials(name) {
     .join('')
 }
 
+export function time(ms) {
+  if (!ms) return ''
+  return new Date(ms).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+}
+
 export function daysUntil(iso) {
   if (!iso) return null
   const today = new Date()

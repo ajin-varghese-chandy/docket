@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext.jsx'
-import api, { newId } from '../api.js'
-import { money, date, fileSize } from '../format.js'
+import api from '../api.js'
+import { money, date } from '../format.js'
 import Avatar from '../components/Avatar.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
 import PaymentModal from '../components/PaymentModal.jsx'
+import ProjectChat from '../components/ProjectChat.jsx'
 import { payInvoice } from '../payments.js'
 
-const TABS = ['Overview', 'Invoices', 'Files', 'Payments']
+const TABS = ['Overview', 'Chat', 'Invoices', 'Payments']
 
 export default function ProjectDetail() {
   const { id } = useParams()
@@ -18,7 +19,6 @@ export default function ProjectDetail() {
   const [project, setProject] = useState(null)
   const [people, setPeople] = useState([])
   const [invoices, setInvoices] = useState([])
-  const [files, setFiles] = useState([])
   const [payments, setPayments] = useState([])
   const [tab, setTab] = useState('Overview')
   const [payingInvoice, setPayingInvoice] = useState(null)
@@ -28,15 +28,11 @@ export default function ProjectDetail() {
     const found = (await api.get('/projects/' + id)).data
     const everyone = (await api.get('/users')).data
     const projectInvoices = (await api.get('/invoices', { params: { projectId: id } })).data
-    const projectFiles = isFreelancer
-      ? []
-      : (await api.get('/files', { params: { projectId: id } })).data
     const projectPayments = (await api.get('/payments', { params: { projectId: id } })).data
 
     setProject(found)
     setPeople(everyone)
     setInvoices(projectInvoices)
-    setFiles(projectFiles)
     setPayments(projectPayments)
   }
 
@@ -79,25 +75,6 @@ export default function ProjectDetail() {
     setTab('Invoices')
   }
 
-  async function addFile(event) {
-    const file = event.target.files[0]
-    if (!file) return
-
-    const saved = {
-      id: newId('fl'),
-      projectId: project.id,
-      name: file.name,
-      size: file.size,
-      uploadedBy: user.id,
-      createdAt: new Date().toISOString().slice(0, 10),
-      url: '#',
-    }
-
-    await api.post('/files', saved)
-    setFiles([...files, saved])
-    event.target.value = ''
-  }
-
   if (error) {
     return (
       <p className="my-2.5 rounded-[10px] border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600">
@@ -131,7 +108,6 @@ export default function ProjectDetail() {
     .filter((payment) => payment.status === 'succeeded')
     .reduce((sum, payment) => sum + payment.amount, 0)
   const accent = isFreelancer ? 'text-indigo-600 border-indigo-600' : 'text-emerald-700 border-emerald-600'
-  const tabs = isFreelancer ? TABS.filter((name) => name !== 'Files') : TABS
 
   return (
     <div>
@@ -191,7 +167,7 @@ export default function ProjectDetail() {
       </div>
 
       <div className="mb-[18px] flex flex-wrap gap-1 border-b border-slate-200">
-        {tabs.map((name) => (
+        {TABS.map((name) => (
           <button
             key={name}
             className={
@@ -271,6 +247,8 @@ export default function ProjectDetail() {
         </div>
       ) : null}
 
+      {tab === 'Chat' ? <ProjectChat projectId={id} /> : null}
+
       {tab === 'Invoices' ? (
         <section className="mb-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="mb-3.5 flex items-center justify-between gap-3">
@@ -339,51 +317,6 @@ export default function ProjectDetail() {
                 ))}
               </tbody>
             </table>
-          )}
-        </section>
-      ) : null}
-
-      {tab === 'Files' && !isFreelancer ? (
-        <section className="mb-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="mb-3.5 flex items-center justify-between gap-3">
-            <h2 className="text-base font-semibold">Shared files</h2>
-            {!isFreelancer ? (
-              <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-slate-900 transition hover:bg-slate-100">
-                Upload
-                <input type="file" hidden onChange={addFile} />
-              </label>
-            ) : null}
-          </div>
-
-          <p className="mb-4 rounded-[10px] border border-indigo-200 bg-indigo-50 px-3 py-2.5 text-[13px] text-indigo-800">
-            Demo only. We save the file name and size, not the file itself.
-          </p>
-
-          {files.length === 0 ? (
-            <p className="text-slate-500">Nothing shared yet.</p>
-          ) : (
-            <ul className="m-0 flex list-none flex-col p-0">
-              {files.map((file) => {
-                const owner = person(file.uploadedBy)
-                return (
-                  <li
-                    className="flex items-center gap-3 border-b border-slate-200 px-2 py-[11px] last:border-b-0"
-                    key={file.id}
-                  >
-                    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-[9px] bg-indigo-50 text-[10px] font-extrabold tracking-wider text-indigo-600">
-                      FILE
-                    </span>
-                    <div className="flex min-w-0 flex-col gap-0.5">
-                      <strong className="text-sm">{file.name}</strong>
-                      <span className="text-xs text-slate-500">
-                        {fileSize(file.size)} · {owner ? owner.name : 'Unknown'} ·{' '}
-                        {date(file.createdAt)}
-                      </span>
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
           )}
         </section>
       ) : null}
