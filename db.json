@@ -38,11 +38,11 @@
     {
       "id": "u_muwx84i09xuy",
       "uid": "mAOCzzIS8fYB8WQWi86NTL9FT6Y2",
-      "name": "Ajin Varghese",
+      "name": "Ajin Varghese chandy",
       "email": "chandyajin@gmail.com",
       "role": "freelancer",
       "title": "Freelancer",
-      "company": "dsad",
+      "company": "twiiin cmp",
       "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIGYVUPMbk4AaCeoIL5PPwH_glhTp5NGuShz0-su9U9hQVMTw=s96-c",
       "color": "#ec4899"
     },
@@ -126,6 +126,32 @@
       "company": "",
       "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIyf1JU9auOGin5CqD5UHnMeBOmecs6V5GsTmxonZtiyeMGdA=s96-c",
       "color": "#ec4899"
+    },
+    {
+      "id": "u_mv2ntz5thu32",
+      "uid": "sKNEfuhQHQO0ufnXsse6QG0XQjp2",
+      "name": "client1",
+      "email": "client1@gmail.com",
+      "role": "client",
+      "title": "Client",
+      "company": "",
+      "photoURL": "",
+      "color": "#0ea5e9",
+      "freelancerId": "u_muwx84i09xuy"
+    },
+    {
+      "id": "c_mv5ah6r6y40i",
+      "uid": "",
+      "name": "amal",
+      "email": "amal@gmail.com",
+      "role": "client",
+      "title": "Client",
+      "company": "amal pvt",
+      "photoURL": "",
+      "color": "#f59e0b",
+      "freelancerId": "u_muwx84i09xuy",
+      "notes": "website",
+      "createdAt": "2026-10-12"
     }
   ],
   "projects": [
@@ -173,9 +199,33 @@
       "description": "ddfdf fsdf",
       "budget": 10000,
       "status": "active",
-      "progress": 80,
+      "progress": 20,
       "startDate": "2026-10-06",
       "dueDate": "2026-10-10"
+    },
+    {
+      "id": "p_mv2nuxcxwyyg",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "u_mv2ntz5thu32",
+      "title": "logo redesign",
+      "description": "the logo must be in modern looking",
+      "budget": 5000,
+      "status": "active",
+      "progress": 25,
+      "startDate": "2026-10-10",
+      "dueDate": "2026-10-23"
+    },
+    {
+      "id": "p_mv5ahvm22f2n",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c_mv5ah6r6y40i",
+      "title": "website",
+      "description": "website",
+      "budget": 10000,
+      "status": "active",
+      "progress": 5,
+      "startDate": "2026-10-12",
+      "dueDate": "2026-10-15"
     }
   ],
   "invoices": [
@@ -282,6 +332,32 @@
       "dueDate": "",
       "paidAt": null,
       "note": "dsadsad"
+    },
+    {
+      "id": "i_mv2nwx2xe7k7",
+      "number": "INV-1004",
+      "projectId": "p_mv2nuxcxwyyg",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "u_mv2ntz5thu32",
+      "amount": 10,
+      "dueDate": "2026-10-11",
+      "note": "advance",
+      "status": "sent",
+      "issuedAt": "2026-10-10",
+      "paidAt": null
+    },
+    {
+      "id": "i_mv5aiw1msbu0",
+      "number": "INV-1005",
+      "projectId": "p_mv5ahvm22f2n",
+      "freelancerId": "u_muwx84i09xuy",
+      "clientId": "c_mv5ah6r6y40i",
+      "amount": 10,
+      "dueDate": "2026-10-12",
+      "note": "advance",
+      "status": "sent",
+      "issuedAt": "2026-10-12",
+      "paidAt": null
     }
   ],
   "files": [
