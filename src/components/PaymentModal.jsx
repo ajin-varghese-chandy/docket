@@ -21,6 +21,8 @@ export default function PaymentModal({ invoice, onClose, onPaid }) {
   const notConfigured = Boolean(config) && !config.enabled
 
   async function handlePay() {
+
+    
     setBusy(true)
     setError('')
 
