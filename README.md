@@ -16,8 +16,6 @@ A small app where a **freelancer** runs their business and a **client** tracks t
 - Payment shows up instantly on the freelancer side (project Payments tab + dashboard totals)
 - Dashboards for both sides: active projects, money owed, money received, latest activity
 - Sign-in with Google or email/password through Firebase Auth
-- Demo mode out of the box — sample accounts in `db.json`, any password of 6+ characters
-- Sample accounts let you watch both sides of the same project react to each other
 
 ## Tech stack
 
@@ -25,6 +23,6 @@ A small app where a **freelancer** runs their business and a **client** tracks t
 - Tailwind CSS — all styling
 - react-router — pages and role-based routing
 - axios — talks to the API
-- json-server — fake REST backend, all data in `db.json`
+- json-server —  REST backend, all data in `db.json`
 - Razorpay Node SDK — order creation and payment signature verification
-- Firebase Auth — Google and email/password sign-in (demo mode without keys)
+- Firebase Auth — Google and email/password sign-in

@@ -12,8 +12,6 @@ import api, { newId } from './api'
 
 const AuthContext = createContext(null)
 
-const DEMO_STORAGE_KEY = 'docket_demo_user_id'
-
 const AVATAR_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ec4899', '#0ea5e9', '#8b5cf6']
 
 let chosenRole = 'freelancer'
@@ -53,23 +51,10 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (isFirebaseConfigured) return
-
-    const savedId = localStorage.getItem(DEMO_STORAGE_KEY)
-    if (!savedId) {
+    if (!isFirebaseConfigured || !auth) {
       setLoading(false)
-      return
+      return undefined
     }
-
-    api
-      .get('/users/' + savedId)
-      .then((res) => setUser(res.data))
-      .catch(() => localStorage.removeItem(DEMO_STORAGE_KEY))
-      .finally(() => setLoading(false))
-  }, [])
-
-  useEffect(() => {
-    if (!isFirebaseConfigured || !auth) return undefined
 
     return onAuthStateChanged(auth, async (firebaseUser) => {
       if (!firebaseUser) {
@@ -98,61 +83,33 @@ export function AuthProvider({ children }) {
     })
   }, [])
 
-  async function signIn(role) {
-    chosenRole = role
-
-    if (isFirebaseConfigured) {
-      await googleSignIn()
-      return
+  function requireFirebase() {
+    if (!isFirebaseConfigured || !auth) {
+      throw new Error(
+        'Firebase is not configured. Add the VITE_FIREBASE_* keys to .env and restart the dev server.',
+      )
     }
-
-    const demoEmail = role === 'freelancer' ? 'alex@docket.dev' : 'sam@acme.com'
-    await signInAsDemoAccount(demoEmail)
   }
 
-  async function signInAsDemoAccount(email) {
-    const matches = (await api.get('/users', { params: { email: email } })).data
-    if (matches.length === 0) throw new Error('No demo account with that email')
-
-    const record = matches[0]
-    localStorage.setItem(DEMO_STORAGE_KEY, record.id)
-    setUser(record)
+  async function signIn(role) {
+    requireFirebase()
+    chosenRole = role
+    await googleSignIn()
   }
 
   async function signInWithEmail(email, password, role) {
-    if (isFirebaseConfigured) {
-      chosenRole = role
-      await emailSignIn(email, password)
-      return
-    }
-
-    const matches = (await api.get('/users', { params: { email: email } })).data
-    if (matches.length === 0) {
-      throw new Error('No account with that email. Create one instead.')
-    }
-    await signInAsDemoAccount(email)
+    requireFirebase()
+    chosenRole = role
+    await emailSignIn(email, password)
   }
 
   async function signUpWithEmail(email, password, role) {
-    if (isFirebaseConfigured) {
-      chosenRole = role
-      await emailSignUp(email, password)
-      return
-    }
-
-    const matches = (await api.get('/users', { params: { email: email } })).data
-    if (matches.length > 0) throw new Error('An account with that email already exists.')
-
-    const record = await findOrCreateUser(
-      { uid: 'demo-' + Date.now(), name: '', email: email, photoURL: '' },
-      role,
-    )
-    localStorage.setItem(DEMO_STORAGE_KEY, record.id)
-    setUser(record)
+    requireFirebase()
+    chosenRole = role
+    await emailSignUp(email, password)
   }
 
   async function signOut() {
-    localStorage.removeItem(DEMO_STORAGE_KEY)
     await googleSignOut()
     setUser(null)
   }
@@ -167,7 +124,6 @@ export function AuthProvider({ children }) {
     user,
     loading,
     signIn,
-    signInAsDemoAccount,
     signInWithEmail,
     signUpWithEmail,
     signOut,
