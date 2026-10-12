@@ -6,7 +6,8 @@
   "description": "DOCKET REST API - json-server backed store plus Razorpay order and payment verification routes.",
   "scripts": {
     "dev": "node index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "node -e \"console.log('docket-api has no build step - running from source.')\""
   },
   "dependencies": {
     "json-server": "^0.17.4",

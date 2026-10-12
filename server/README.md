@@ -11,6 +11,10 @@ npm install
 npm run dev        # http://localhost:4000
 ```
 
+There is no build step — the API runs straight from source. `npm run build`
+exists only as a no-op so deploy hosts that assume a build command (Render,
+Railway) don't fail on a missing script.
+
 From the project root you can still run everything together:
 
 ```bash
