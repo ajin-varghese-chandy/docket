@@ -6,7 +6,7 @@
   "description": "DOCKET - a simple React app where freelancers manage their business and clients track shared work.",
   "scripts": {
     "dev": "vite",
-    "api": "node server/index.js",
+    "api": "npm --prefix server run dev",
     "start": "concurrently -n api,web -c cyan,magenta \"npm:api\" \"npm:dev\"",
     "build": "vite build",
     "preview": "vite preview"
@@ -14,7 +14,6 @@
   "dependencies": {
     "axios": "^1.20.0",
     "firebase": "^11.1.0",
-    "razorpay": "^2.9.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.1"
@@ -23,7 +22,6 @@
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.2",
-    "json-server": "^0.17.4",
     "tailwindcss": "^4.3.3",
     "vite": "^6.0.7"
   }

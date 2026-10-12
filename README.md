@@ -23,6 +23,6 @@ A small app where a **freelancer** runs their business and a **client** tracks t
 - Tailwind CSS — all styling
 - react-router — pages and role-based routing
 - axios — talks to the API
-- json-server —  REST backend, all data in `db.json`
+- json-server — REST backend in [`server/`](server/README.md), all data in `server/db.json`
 - Razorpay Node SDK — order creation and payment signature verification
 - Firebase Auth — Google and email/password sign-in

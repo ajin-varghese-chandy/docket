@@ -5,16 +5,18 @@ import { loadEnvFile } from './env.js'
 import { setupRazorpay } from './razorpay.js'
 import { registerRoutes } from './routes.js'
 
-const currentFile = fileURLToPath(import.meta.url)
-const projectFolder = path.dirname(path.dirname(currentFile))
+const serverFolder = path.dirname(fileURLToPath(import.meta.url))
 const port = Number(process.env.PORT) || 4000
 
-loadEnvFile(path.join(projectFolder, '.env'))
+// server/.env wins, the project root .env is only a fallback so the API keeps
+// working before anyone moves the Razorpay keys over.
+loadEnvFile(path.join(path.dirname(serverFolder), '.env'))
+loadEnvFile(path.join(serverFolder, '.env'))
 
 const razorpay = setupRazorpay()
 
 const server = jsonServer.create()
-const router = jsonServer.router(path.join(projectFolder, 'db.json'))
+const router = jsonServer.router(path.join(serverFolder, 'db.json'))
 
 server.use(jsonServer.defaults({ bodyParser: true }))
 
