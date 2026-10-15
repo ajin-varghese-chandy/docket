@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 
+
 const ROLES = [
   {
     id: 'freelancer',
@@ -35,10 +36,11 @@ const ROLES = [
 ]
 
 const INPUT =
-  'rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20'
+  'rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-[14.5px] outline-none transition focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20'
 
 const FOCUS =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-600/50'
+
 
 function GoogleIcon() {
   return (
@@ -115,29 +117,29 @@ export default function Login() {
   }
 
   return (
-    <section className="sticky top-0 z-20 flex h-screen max-w-[640px] flex-col justify-center justify-self-end border-l border-indigo-100 bg-indigo-50 px-8 py-10 max-lg:static max-lg:order-3 max-lg:h-auto max-lg:max-w-none max-lg:justify-self-stretch max-lg:border-l-0 max-lg:border-t max-lg:px-7 max-lg:py-10">
+    <section className="flex w-full flex-col">
       <div className="mx-auto flex w-full max-w-[470px] flex-col">
-        <header className="mb-7">
-          <h2 className="text-[27px] font-bold leading-[1.15] tracking-[-0.025em] text-slate-900">
+        <header className="mb-5">
+          <h2 className={`text-[27px] font-bold leading-[1.15] tracking-[-0.03em] text-slate-900`}>
             Welcome to Docket
           </h2>
-          <p className="mt-2 text-[14.5px] leading-relaxed text-slate-600">
+          <p className={`mt-2 text-[15.5px] leading-[1.7] text-slate-600`}>
             Choose your workspace to continue.
           </p>
         </header>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           {ROLES.map((role) => {
             const isOpen = openRole === role.id
             return (
               <div
-                className="overflow-hidden rounded-2xl border border-slate-200 bg-white transition duration-200 hover:-translate-y-px hover:border-indigo-300 hover:shadow-[0_16px_36px_-26px_rgba(15,23,42,0.55)] has-[:focus-visible]:border-indigo-300"
+                className="overflow-hidden border border-slate-200 bg-white transition duration-200 hover:-translate-y-px hover:border-indigo-300 hover:shadow-[0_16px_36px_-26px_rgba(15,23,42,0.55)] has-[:focus-visible]:border-indigo-300"
                 key={role.id}
               >
                 <button
                   type="button"
                   className={
-                    'group flex w-full cursor-pointer items-center gap-4 px-5 py-[17px] text-left ' +
+                    'group flex w-full cursor-pointer items-center gap-4 px-5 py-3 text-left ' +
                     FOCUS
                   }
                   onClick={() => setOpenRole(isOpen ? '' : role.id)}
@@ -146,7 +148,7 @@ export default function Login() {
                 >
                   <span
                     className={
-                      'grid h-10 w-10 shrink-0 place-items-center rounded-[11px] border border-slate-200 bg-slate-50 text-slate-500 transition duration-200 ' +
+                      `grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-slate-200 bg-slate-50 text-slate-500 transition duration-200 ` +
                       role.accent
                     }
                   >
@@ -169,7 +171,7 @@ export default function Login() {
                     <strong className="text-[15.5px] font-semibold text-slate-900">
                       {role.title}
                     </strong>
-                    <span className="text-[13.5px] leading-snug text-slate-600">
+                    <span className={`text-[14.5px] leading-[1.68] text-slate-600`}>
                       <span className="font-semibold text-slate-900">{role.lead}</span>
                       {role.blurb}
                     </span>
@@ -201,7 +203,7 @@ export default function Login() {
                     <button
                       type="button"
                       className={
-                        'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
+                        'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-[14.5px] font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
                         role.button
                       }
                       onClick={() => handleSignIn(role.id)}
@@ -217,7 +219,7 @@ export default function Login() {
                       )}
                     </button>
 
-                    <div className="flex items-center gap-2.5 text-[12px] uppercase tracking-wider text-slate-500">
+                    <div className={`flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500`}>
                       <span className="h-px flex-1 bg-slate-300/70" />
                       or
                       <span className="h-px flex-1 bg-slate-300/70" />
@@ -245,7 +247,7 @@ export default function Login() {
                     <button
                       type="button"
                       className={
-                        'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
+                        'flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 py-3 text-[14.5px] font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
                         role.button
                       }
                       onClick={() => handleEmail(role.id)}
@@ -260,7 +262,7 @@ export default function Login() {
 
                     <button
                       type="button"
-                      className="cursor-pointer self-center border-none bg-transparent p-0 text-[13px] font-semibold text-slate-600 transition hover:text-slate-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600/50"
+                      className="cursor-pointer self-center border-none bg-transparent p-0 text-[14.5px] font-semibold text-slate-600 transition hover:text-slate-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600/50"
                       onClick={() => {
                         setMode(mode === 'signup' ? 'signin' : 'signup')
                         setError('')
@@ -280,7 +282,7 @@ export default function Login() {
         {error ? (
           <p
             role="alert"
-            className="my-3 rounded-[10px] border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-600"
+            className="my-3 rounded-[10px] border border-red-200 bg-red-50 px-3 py-2.5 text-[14.5px] text-red-600"
           >
             {error}
           </p>
