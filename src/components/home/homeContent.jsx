@@ -1,9 +1,3 @@
-/*
- * Copy for the home page card stacks.
- *
- * FEATURES feed the dark freelancer panel, BENEFITS mirror them for the light
- * client panel. Icons are inline SVG fragments rendered by <CardList />.
- */
 
 export const FEATURES = [
   {

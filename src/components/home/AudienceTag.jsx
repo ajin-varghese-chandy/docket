@@ -1,10 +1,3 @@
-/*
- * "For freelancers" / "For clients" marker.
- *
- * Flat and squared off — no border, no radius, asymmetric padding so the block
- * hugs its text like a stamped index label. `tone` picks the panel palette;
- * extra spacing (e.g. mt-3) can be passed via className.
- */
 
 const TAG_STYLE = {
   dark: 'bg-indigo-500/20 text-indigo-200',

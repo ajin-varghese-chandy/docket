@@ -1,10 +1,4 @@
-/*
- * The three-card stack shared by both home panels.
- *
- * Same markup for the dark (freelancer) and light (client) sides — only the
- * colours differ, so both stacks are defined here as one `CARD_STYLE` map.
- * Every card is tagged with data-wire-card so <HeroWires /> can measure it.
- */
+
 
 const CARD_STYLE = {
   dark: {

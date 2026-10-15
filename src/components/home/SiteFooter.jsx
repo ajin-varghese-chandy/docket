@@ -1,10 +1,4 @@
-/*
- * One footer for both home panels.
- *
- * The dark half continues the left panel's colour and padding; the light half
- * sits on the page background. Both split at the same seam as the panels, and
- * on mobile the dark half becomes the page's single full-width footer.
- */
+
 export default function SiteFooter() {
   return (
     <footer className="max-lg:order-4 lg:col-span-2 lg:grid lg:grid-cols-2">
