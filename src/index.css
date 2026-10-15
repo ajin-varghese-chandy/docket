@@ -40,3 +40,8 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+* {
+  transition: ease 2s;
+}
