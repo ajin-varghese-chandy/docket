@@ -1,5 +1,6 @@
 const LABELS = {
   active: 'Active',
+  requested: 'Awaiting approval',
   completed: 'Completed',
   draft: 'Draft',
   sent: 'Sent',
@@ -9,6 +10,7 @@ const LABELS = {
 
 const TONES = {
   active: 'bg-indigo-50 text-indigo-700',
+  requested: 'bg-amber-50 text-amber-700',
   sent: 'bg-indigo-50 text-indigo-700',
   draft: 'bg-slate-100 text-slate-600',
   paid: 'bg-emerald-50 text-emerald-600',
