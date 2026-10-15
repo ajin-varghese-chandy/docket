@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 
 
@@ -79,6 +79,21 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [mode, setMode] = useState('signin')
 
+  /*
+   * The sign-in panel floats over the page (see below) instead of growing the
+   * shared grid row, so give it a keyboard-friendly way to close.
+   */
+  useEffect(() => {
+    if (!openRole) return undefined
+
+    function onKeyDown(event) {
+      if (event.key === 'Escape') setOpenRole('')
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [openRole])
+
   async function handleSignIn(role) {
     setError('')
     setBusy(role)
@@ -133,7 +148,14 @@ export default function Login() {
             const isOpen = openRole === role.id
             return (
               <div
-                className="overflow-hidden border border-slate-200 bg-white transition duration-200 hover:-translate-y-px hover:border-indigo-300 hover:shadow-[0_16px_36px_-26px_rgba(15,23,42,0.55)] has-[:focus-visible]:border-indigo-300"
+                className={
+                  'relative border border-slate-200 bg-white transition duration-200 hover:-translate-y-px hover:border-indigo-300 hover:shadow-[0_16px_36px_-26px_rgba(15,23,42,0.55)] has-[:focus-visible]:border-indigo-300 ' +
+                  /* The open card must out-rank its sibling: the hover transform
+                     below creates a stacking context that would otherwise trap
+                     the floating panel's z-index and let the other role card
+                     paint over it. */
+                  (isOpen ? 'z-30' : '')
+                }
                 key={role.id}
               >
                 <button
@@ -198,7 +220,7 @@ export default function Login() {
                 {isOpen ? (
                   <div
                     id={'signin-' + role.id}
-                    className="flex flex-col gap-3 border-t border-slate-200 bg-indigo-50/70 p-4"
+                    className="absolute -inset-x-px top-full z-30 flex flex-col gap-3 border border-slate-200 bg-indigo-50 p-4 shadow-[0_28px_60px_-24px_rgba(15,23,42,0.45)]"
                   >
                     <button
                       type="button"
@@ -272,21 +294,21 @@ export default function Login() {
                         ? 'Already have an account? Sign in'
                         : 'New here? Create an account'}
                     </button>
+
+                    {error ? (
+                      <p
+                        role="alert"
+                        className="my-3 rounded-[10px] border border-red-200 bg-red-50 px-3 py-2.5 text-[14.5px] text-red-600"
+                      >
+                        {error}
+                      </p>
+                    ) : null}
                   </div>
                 ) : null}
               </div>
             )
           })}
         </div>
-
-        {error ? (
-          <p
-            role="alert"
-            className="my-3 rounded-[10px] border border-red-200 bg-red-50 px-3 py-2.5 text-[14.5px] text-red-600"
-          >
-            {error}
-          </p>
-        ) : null}
       </div>
     </section>
   )
